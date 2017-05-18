@@ -1,6 +1,7 @@
 const fs = require('fs')
 const helper = require("./helper")
-var blessed = require('blessed');
+const blessed = require('blessed');
+const timeToGo = process.argv[2];
 
 // Create a screen object. 
 var screen = blessed.screen({
@@ -57,7 +58,7 @@ function getTimeRemaining(endtime) {
 }
 
 function initializeClock(box, screen) {
-  var endTime = Date.now() + 1000 * 60 * 15
+  var endTime = Date.now() + 1000 * 60 * timeToGo
   var timeinterval = setInterval(function () {
     var t = getTimeRemaining(endTime);
     line = helper.readJSON("./res/message.json")
@@ -76,20 +77,6 @@ function initializeClock(box, screen) {
 
 // Append our box to the screen. 
 screen.append(box);
-
-// If our box is clicked, change the content. 
-box.on('click', function (data) {
-  box.setContent('{center}Some different {red-fg}content{/red-fg}.{/center}');
-  screen.render();
-});
-
-// If box is focused, handle `enter`/`return` and give us some more content. 
-box.key('enter', function (ch, key) {
-  box.setContent('{right}Even different {black-fg}content{/black-fg}.{/right}\n');
-  box.setLine(1, 'bar');
-  box.insertLine(1, 'foo');
-  screen.render();
-});
 
 // Quit on Escape, q, or Control-C. 
 screen.key(['escape', 'q', 'C-c'], function (ch, key) {
