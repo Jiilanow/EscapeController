@@ -58,7 +58,8 @@ function getTimeRemaining(endtime) {
 }
 
 function initializeClock(box, screen) {
-  var endTime = Date.now() + 1000 * 60 * timeToGo
+  var endTime = Date.now() + 1000 * 60 * timeToGo;
+  helper.writeJSON("./res/time.json", endTime);
   var timeinterval = setInterval(function () {
     var t = getTimeRemaining(endTime);
     line = helper.readJSON("./res/message.json")

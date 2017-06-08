@@ -3,7 +3,7 @@
 ## Install what you need
 * Install nodejs < v7
 * Clone this repo on the different machine
-* Launch the: npm install
+* Launch the: npm install 
 
 ## Launch
 ### On the Timer machine
