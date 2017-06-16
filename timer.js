@@ -55,14 +55,14 @@ function initializeClock(box, screen) {
   let timeinterval = setInterval(function () {
     let t = getTimeRemaining();
     line = helper.readJSON("./res/message.json")
-    box.setContent("{center}{red-fg}Time{/red-fg}: " + t.minutes + "m " + t.seconds + "s{/center}")
+    if (t.total > 0)
+      box.setContent("{center}{red-fg}Time{/red-fg}: " + t.minutes + "m " + t.seconds + "s{/center}")
+    else
+      box.setContent("{center}{red-fg}Temps écoulée{/red-fg}{/center}")
     
     for (let i = 0+1; i < line.length+1; i++)
       box.setLine(i, line[i-1]);
 
-    if (t.total <= 0) {
-      clearInterval(timeinterval);
-    }
     screen.render();
   }, 1000);
 }
