@@ -58,7 +58,7 @@ function initializeClock(box, screen) {
     if (t.total > 0)
       box.setContent("{center}{red-fg}Time{/red-fg}: " + t.minutes + "m " + t.seconds + "s{/center}")
     else
-      box.setContent("{center}{red-fg}Temps écoulée{/red-fg}{/center}")
+      box.setContent("{center}{red-fg}Temps écoulé{/red-fg}{/center}")
     
     for (let i = 0+1; i < line.length+1; i++)
       box.setLine(i, line[i-1]);
