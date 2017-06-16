@@ -11,4 +11,4 @@
 * Launch the timer.js: `node timer`
 
 ### On the 'master' machine
-* See `https://github.com/ZooPin/ingame.spa`
+* Go to `http://[ip_timer_machine]:8080/`

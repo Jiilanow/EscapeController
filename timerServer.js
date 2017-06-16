@@ -17,6 +17,8 @@ const time = require('./route/time')
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+app.use('/', express.static('./res/html'));
+
 // Allow externe request
 let originWhitelist = ['http://localhost:4200'];
 let corsOptions = {
