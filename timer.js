@@ -1,10 +1,9 @@
 const fs = require('fs')
 const helper = require("./helper")
 const blessed = require('blessed');
-const timeToGo = process.argv[2];
 
 // Create a screen object. 
-var screen = blessed.screen({
+let screen = blessed.screen({
   smartCSR: true,
   cursor: {
     artificial: true,
@@ -17,7 +16,7 @@ var screen = blessed.screen({
 screen.title = 'my window title';
 
 // Create a box perfectly centered horizontally and vertically. 
-var box = blessed.box({
+let box = blessed.box({
   top: 'center',
   left: 'center',
   width: '50%',
@@ -39,35 +38,27 @@ var box = blessed.box({
   }
 });
 
-
-
-function getTimeRemaining(endtime) {
-  var t = endtime - Date.now()
-  var now = Date.now()
-  var seconds = Math.floor((t / 1000) % 60);
-  var minutes = Math.floor((t / 1000 / 60) % 60);
-  var hours = Math.floor((t / (1000 * 60 * 60)) % 24);
-  var days = Math.floor(t / (1000 * 60 * 60 * 24));
+function getTimeRemaining() {
+  let endtime = helper.readJSON("./res/time.json");
+  let t = endtime - Date.now()
+  let now = Date.now()
   return {
     'total': t,
-    'days': days,
-    'hours': hours,
-    'minutes': minutes,
-    'seconds': seconds
+    'days': Math.floor(t / (1000 * 60 * 60 * 24)),
+    'hours': Math.floor((t / (1000 * 60 * 60)) % 24),
+    'minutes': Math.floor((t / 1000 / 60) % 60),
+    'seconds': Math.floor((t / 1000) % 60)
   };
 }
 
 function initializeClock(box, screen) {
-  var endTime = Date.now() + 1000 * 60 * timeToGo;
-  helper.writeJSON("./res/time.json", endTime);
-  var timeinterval = setInterval(function () {
-    var t = getTimeRemaining(endTime);
+  let timeinterval = setInterval(function () {
+    let t = getTimeRemaining();
     line = helper.readJSON("./res/message.json")
     box.setContent("{center}{red-fg}Time{/red-fg}: " + t.minutes + "m " + t.seconds + "s{/center}")
     
     for (let i = 0+1; i < line.length+1; i++)
       box.setLine(i, line[i-1]);
-
 
     if (t.total <= 0) {
       clearInterval(timeinterval);
@@ -80,7 +71,7 @@ function initializeClock(box, screen) {
 screen.append(box);
 
 // Quit on Escape, q, or Control-C. 
-screen.key(['escape', 'q', 'C-c'], function (ch, key) {
+screen.key(['C-c'], function (ch, key) {
   return process.exit(0);
 });
 
